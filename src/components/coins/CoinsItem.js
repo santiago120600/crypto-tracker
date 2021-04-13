@@ -1,5 +1,7 @@
 import React from 'react';
-import {View, Text, Pressable, StyleSheet, FlatList} from 'react-native';;
+import {View, Text, Pressable, StyleSheet, FlatList, Platform} from 'react-native';;
+import Icon from 'react-native-vector-icons/FontAwesome';  
+import Colors from 'cryptoTracker/src/res/colors';
 
 const CoinsItem = ({item}) =>{
     getIconArrow = () =>{
@@ -18,6 +20,11 @@ const CoinsItem = ({item}) =>{
             </View>
             <View style={styles.row}>
                 <Text style={styles.percentText}>{item.percent_change_1h}</Text>
+                <Icon 
+                    name={item.percent_change_1h > 0 ? "arrow-up" : "arrow-down"} 
+                    color={item.percent_change_1h > 0 ? "#457770" : "#844258"}
+                    size={22}
+                />
             </View>
         </View>
     );
@@ -27,7 +34,10 @@ const styles = StyleSheet.create({
     container:{
         flexDirection:"row",
         justifyContent:"space-between",
-        padding:16
+        padding:16,
+        borderBottomColor:Colors.zircon,
+        borderBottomWidth:1,
+        marginLeft: Platform.OS =='ios' ? 16 : 0
     },
     row:{
         flexDirection:"row"
@@ -45,7 +55,8 @@ const styles = StyleSheet.create({
     },
     percentText:{
         color:"#fff",
-        fontSize:12
+        fontSize:12,
+        marginRight:8
     },
     priceText:{
         color:"#fff",
