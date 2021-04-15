@@ -3,7 +3,7 @@ import {View, Text, Pressable, StyleSheet, FlatList, Platform} from 'react-nativ
 import Icon from 'react-native-vector-icons/FontAwesome';  
 import Colors from 'cryptoTracker/src/res/colors';
 
-const CoinsItem = ({item}) =>{
+const CoinsItem = ({item, onPress}) =>{
     getIconArrow = () =>{
         if(item.percent_change_1h > 0){
             //arrow up 
@@ -12,7 +12,7 @@ const CoinsItem = ({item}) =>{
         }
     }
     return(
-        <View style={styles.container}>
+        <Pressable style={styles.container} onPress={onPress}>
             <View style={styles.row}>
                 <Text style={styles.symbolText}>{item.symbol}</Text> 
                 <Text style={styles.nameText}>{item.name}</Text> 
@@ -26,7 +26,7 @@ const CoinsItem = ({item}) =>{
                     size={22}
                 />
             </View>
-        </View>
+        </Pressable>
     );
 }
 
@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
         padding:16,
         borderBottomColor:Colors.zircon,
         borderBottomWidth:1,
-        marginLeft: Platform.OS =='ios' ? 16 : 0
+        paddingLeft: Platform.OS == 'ios' ? 0: 16,
+        marginLeft: Platform.OS =='ios' ? 16 : 0,
     },
     row:{
         flexDirection:"row"
