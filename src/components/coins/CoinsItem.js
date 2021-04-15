@@ -1,16 +1,9 @@
 import React from 'react';
-import {View, Text, Pressable, StyleSheet, FlatList, Platform} from 'react-native';;
+import {View, Text, Pressable, StyleSheet, FlatList, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';  
 import Colors from 'cryptoTracker/src/res/colors';
 
 const CoinsItem = ({item, onPress}) =>{
-    getIconArrow = () =>{
-        if(item.percent_change_1h > 0){
-            //arrow up 
-        }else{
-            //arrow down 
-        }
-    }
     return(
         <Pressable style={styles.container} onPress={onPress}>
             <View style={styles.row}>
