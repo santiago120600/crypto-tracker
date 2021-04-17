@@ -3,7 +3,7 @@ import {View, FlatList, Text, Image, StyleSheet, SectionList, Pressable} from 'r
 import Colors from 'cryptoTracker/src/res/colors';
 import Http from 'cryptoTracker/src/libs/http';
 import CoinMarketItem from './CoinMarketItem';
-//import Storage from 'cryptoTracker/src/libs/storage';
+import Storage from 'cryptoTracker/src/libs/storage';
 
 class CoinDetailScreen extends Component{
     state={
