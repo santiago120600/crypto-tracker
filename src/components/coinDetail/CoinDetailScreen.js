@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, FlatList, Text, Image, StyleSheet, SectionList, Pressable} from 'react-native';
+import {View, FlatList, Alert, Text, Image, StyleSheet, SectionList, Pressable} from 'react-native';
 import Colors from 'cryptoTracker/src/res/colors';
 import Http from 'cryptoTracker/src/libs/http';
 import CoinMarketItem from './CoinMarketItem';
@@ -20,16 +20,45 @@ class CoinDetailScreen extends Component{
         }
     }
 
-    addFavorite = () =>{
+    addFavorite = async () =>{
         const coin = JSON.stringify(this.state.coin);
         const key = `favorite-${this.state.coin.id}`;
-        const stored = Storage.instance.store(key, coin);
+        const stored = await Storage.instance.store(key, coin);
+        console.log("stored",stored);
         if(stored){
             this.setState({isFavorite:true});
         }
     }
 
-    removeFavorite = () =>{
+    removeFavorite = async () =>{
+        Alert.alert("Remove favorite", "Are you sure?",[
+            {
+                text:"cancel",
+                onPress: ()=>{},
+                style:"cancel"
+            },
+            {
+                text:"Remove",
+                onPress: async ()=>{
+                    const key = `favorite-${this.state.coin.id}`;
+                    await Storage.instance.remove(key);
+                    this.setState({isFavorite:false});
+                }, 
+                style:"destructive"
+            }
+        ])
+    }
+
+    getFavorite = async () =>{
+        try{
+            const key = `favorite-${this.state.coin.id}`;
+            const favStr = await Storage.instance.get(key);
+            if(favStr != null){
+                this.setState({isFavorite:true});
+            }
+        }catch(e){
+            console.log("get fav err",e);
+        }
     }
 
     getMarkets = async (coinId) =>{
@@ -66,8 +95,10 @@ class CoinDetailScreen extends Component{
     componentDidMount(){
         const {coin}= this.props.route.params;
         this.props.navigation.setOptions({title:coin.symbol});
-        this.setState({coin});
         this.getMarkets(coin.id);
+        this.setState({coin}, ()=>{
+            this.getFavorite();
+        });
     }
 
     render(){
